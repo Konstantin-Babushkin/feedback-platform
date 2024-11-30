@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/axios.ts'
-import { BACKEND_URL } from '@/config/env-variables.ts'
+// import { BACKEND_URL } from '@/config/env-variables.ts'
 
 async function baseRequest(
   method: string,
@@ -7,7 +7,8 @@ async function baseRequest(
   payload: unknown = {},
   queries: unknown = {},
 ) {
-  let fullPath = `${BACKEND_URL}${path}`
+  // let fullPath = `${BACKEND_URL}${path}`
+  let fullPath = `/api${path}`
   if (queries && Object.keys(queries).length > 0) {
     fullPath = `${fullPath}?${new URLSearchParams(queries as URLSearchParams).toString()}`
   }
