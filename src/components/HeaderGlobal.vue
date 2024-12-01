@@ -23,8 +23,6 @@
   </header>
 </template>
 
-<script lang="ts" setup></script>
-
 <style scoped lang="scss">
 .header {
   display: flex;

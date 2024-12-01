@@ -1,6 +1,6 @@
 import type { AuthData, UserInfo } from '@/interfaces/auth.ts'
 import axios from 'axios'
-import { post } from '@/api/api-methods.ts'
+import { get } from '@/api/api-methods.ts'
 import type { APIResponse } from '@/interfaces/common.ts'
 
 async function signIn(username: string, password: string) {
@@ -11,7 +11,7 @@ async function signIn(username: string, password: string) {
 }
 
 async function me() {
-  return (await post('/auth/me')) as APIResponse<UserInfo>
+  return (await get('/auth/me')) as UserInfo
 }
 
 export { signIn, me }

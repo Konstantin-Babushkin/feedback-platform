@@ -1,17 +1,9 @@
 import axiosInstance from '@/api/axios.ts'
 // import { BACKEND_URL } from '@/config/env-variables.ts'
 
-async function baseRequest(
-  method: string,
-  path: string,
-  payload: unknown = {},
-  queries: unknown = {},
-) {
+async function baseRequest(method: string, path: string, payload: unknown = {}) {
   // let fullPath = `${BACKEND_URL}${path}`
-  let fullPath = `/api${path}`
-  if (queries && Object.keys(queries).length > 0) {
-    fullPath = `${fullPath}?${new URLSearchParams(queries as URLSearchParams).toString()}`
-  }
+  const fullPath = `/api${path}`
   const response = await axiosInstance(fullPath, {
     method,
     data: payload,
@@ -19,20 +11,20 @@ async function baseRequest(
   return response?.data
 }
 
-async function get(path: string, queries = {}) {
-  return await baseRequest('GET', path, {}, queries)
+async function get(path: string) {
+  return await baseRequest('GET', path, {})
 }
 
-async function post(path: string, payload = {}, queries = {}) {
-  return await baseRequest('POST', path, payload, queries)
+async function post(path: string, payload = {}) {
+  return await baseRequest('POST', path, payload)
 }
 
-async function patch(path: string, payload = {}, queries = {}) {
-  return await baseRequest('PATCH', path, payload, queries)
+async function patch(path: string, payload = {}) {
+  return await baseRequest('PATCH', path, payload)
 }
 
-async function remove(path: string, payload = {}, queries = {}) {
-  return await baseRequest('DELETE', path, payload, queries)
+async function remove(path: string, payload = {}) {
+  return await baseRequest('DELETE', path, payload)
 }
 
 export { get, post, patch, remove }

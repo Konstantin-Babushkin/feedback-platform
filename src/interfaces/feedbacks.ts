@@ -6,7 +6,7 @@ export interface FeedbackForm {
   fields: [{ [key: string]: string | null }]
   header: 'string'
 }
-export interface FeedbacksSession {
+export interface FeedbackSession {
   id: string
   author_id: number
   is_active: boolean

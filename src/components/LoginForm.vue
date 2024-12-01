@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { signIn } from '@/api/auth.ts'
-import { AUTH_TOKEN } from '@/config/local-storage-keys.ts'
+import { me, signIn } from '@/api/auth.ts'
+import { AUTH_TOKEN, USER_ID } from '@/config/local-storage-keys.ts'
 import { useRouter } from 'vue-router'
 
 const username = ref<string | null>(null)
@@ -31,9 +31,10 @@ const { push } = useRouter()
 async function trySignIn() {
   try {
     loading.value = true
-    const response = await signIn(username.value as string, password.value as string)
-    debugger
-    localStorage.setItem(AUTH_TOKEN, response.data.access_token)
+    const authData = await signIn(username.value as string, password.value as string)
+    localStorage.setItem(AUTH_TOKEN, authData.data.access_token)
+    const userInfo = await me()
+    localStorage.setItem(USER_ID, String(userInfo.id))
     await push('/')
   } finally {
     loading.value = false
