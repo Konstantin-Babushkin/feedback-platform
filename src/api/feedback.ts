@@ -14,11 +14,11 @@ async function getMyTotalSummary() {
 }
 
 async function startNewSession(title: string) {
-  return (await post('/feedback-sessions/', { title })) as APIResponse<FeedbackSession>
+  return (await post('/feedback-sessions/', { title })) as FeedbackSession
 }
 
 async function endSession(sessionId: string) {
-  return (await patch(`/feedback-sessions/${sessionId}`)) as APIResponse<FeedbackSession>
+  return (await patch(`/feedback-sessions/${sessionId}`)) as FeedbackSession
 }
 
 async function getFeedbackForm(sessionId: string) {

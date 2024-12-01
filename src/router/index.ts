@@ -16,7 +16,7 @@ export const MAIN_ROUTES = [
   },
   {
     path: '/create-session',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/views/NewSession.vue'),
     meta: { requiresAuth: true },
     name: 'create-session',
   },
