@@ -6,7 +6,7 @@
         <p>New session has been started</p>
       </div>
       <div class="session-created-dialog_controls">
-        <button @click="copyToClipboard">Copy survey link</button>
+        <CopyLinkButton :session-id="sessionId" />
         <RouterLink to="/">
           <button>Home</button>
         </RouterLink>
@@ -17,36 +17,9 @@
 
 <script setup lang="ts">
 import DialogWrapper from '@/components/reusable/DialogWrapper.vue'
-import { toRefs } from 'vue'
+import CopyLinkButton from '@/components/reusable/CopyLinkButton.vue'
 
-const props = defineProps<{ sessionId: string | undefined }>()
-
-const { sessionId } = toRefs(props)
-
-const copyToClipboard = () => {
-  try {
-    if (!sessionId.value) throw new Error('Missing session id')
-
-    const sessionLink = `http://localhost:5173/session/${sessionId.value}`
-
-    const tempInput = document.createElement('input')
-    tempInput.value = sessionLink
-    document.body.appendChild(tempInput)
-
-    tempInput.select()
-    tempInput.setSelectionRange(0, 99999)
-
-    const successful = document.execCommand('copy')
-
-    if (successful) window.alert('Copied link to clipboard')
-    else throw new Error('Failed to copy')
-
-    document.body.removeChild(tempInput)
-  } catch (err) {
-    console.error('Failed to copy: ', err)
-    window.alert('Failed to copy link to clipboard')
-  }
-}
+defineProps<{ sessionId: string | undefined }>()
 </script>
 
 <style lang="scss" scoped>

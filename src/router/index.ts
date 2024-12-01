@@ -10,7 +10,7 @@ export const MAIN_ROUTES = [
   },
   {
     path: '/session/:sessionId',
-    component: () => import('@/views/DashboardView.vue'),
+    component: () => import('@/views/SessionView.vue'),
     meta: { requiresAuth: true },
     name: 'session',
   },

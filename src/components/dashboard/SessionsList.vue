@@ -44,6 +44,9 @@ onBeforeMount(async () => {
 .sessions-list {
   min-width: 600px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   &_plus-button {
     display: flex;
