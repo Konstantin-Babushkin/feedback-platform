@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import TotalSummary from '@/components/TotalSummary.vue'
-import SessionsList from '@/components/SessionsList.vue'
+import TotalSummary from '@/components/dashboard/TotalSummary.vue'
+import SessionsList from '@/components/dashboard/SessionsList.vue'
 </script>
 
 <style lang="scss" scoped>
