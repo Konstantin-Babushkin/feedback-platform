@@ -3,26 +3,40 @@
     <div class="header__left"></div>
 
     <div class="header__right">
-      <RouterLink to="/">
-        <button class="header__button header__button--primary">My Sessions</button>
-      </RouterLink>
-      <RouterLink to="/create-session">
-        <button class="header__button header__button--secondary">+</button>
-      </RouterLink>
-
-      <RouterLink to="/account">
-        <div class="header__avatar">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
-            alt="User Avatar"
-            class="header__avatar__image"
-          />
-        </div>
-      </RouterLink>
+      <div class="header__avatar" @click="toggleMenu" ref="excludeRef">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+          alt="User Avatar"
+          class="header__avatar__image"
+        />
+      </div>
+      <div v-if="showMenu" class="header__menu" ref="componentRef">
+        <RouterLink to="/" class="header__menu__item">My Sessions</RouterLink>
+        <RouterLink to="/account" class="header__menu__item">Account</RouterLink>
+      </div>
     </div>
   </header>
 </template>
+<script setup lang="ts">
+import { ref } from 'vue'
+import useClickOutside from '@/utils.ts'
 
+const showMenu = ref(false)
+const componentRef = ref()
+const excludeRef = ref()
+
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value
+}
+
+useClickOutside(
+  componentRef,
+  () => {
+    showMenu.value = false
+  },
+  excludeRef,
+)
+</script>
 <style scoped lang="scss">
 .header {
   display: flex;
@@ -40,32 +54,6 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-
-  &__button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    &--primary {
-      background-color: #3b82f6;
-    }
-
-    &--primary:hover {
-      background-color: #2563eb;
-    }
-
-    &--secondary {
-      background-color: #6b7280;
-    }
-
-    &--secondary:hover {
-      background-color: #4b5563;
-    }
   }
 
   &__avatar {
@@ -86,6 +74,32 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 10rem;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+
+    &__item {
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.875rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #f3f4f6;
+      }
     }
   }
 }
