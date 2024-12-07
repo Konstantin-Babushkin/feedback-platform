@@ -28,7 +28,7 @@ export const MAIN_ROUTES = [
   },
   {
     path: '/account',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/views/AccountSettingsView.vue'),
     meta: { requiresAuth: true },
     name: 'account',
   },
