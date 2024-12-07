@@ -1,5 +1,6 @@
 export interface Feedback {
-  [key: string]: unknown
+  ts_created: string
+  data: { [key: string]: unknown }
 }
 
 export interface FeedbackForm {

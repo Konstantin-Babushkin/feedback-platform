@@ -30,7 +30,7 @@ async function getFeedbackForm(sessionId: string) {
   return (await get(`/feedback/${sessionId}`)) as FeedbackForm
 }
 
-async function getSessionFeedbacks(sessionId: string | null) {
+async function getSessionFeedbacksAsAdmin(sessionId: string | null) {
   if (!sessionId) return
   return (await get(`/feedback/${sessionId}/sent`)) as APIResponse<unknown>
 }
@@ -46,6 +46,6 @@ export {
   startNewSession,
   endSession,
   getFeedbackForm,
-  getSessionFeedbacks,
+  getSessionFeedbacksAsAdmin,
   submitFeedback,
 }
