@@ -1,7 +1,19 @@
 <template>
   <div class="string-input-container">
     <label v-if="label" class="label">{{ label }}</label>
+    <select
+      v-if="options && options.length > 0"
+      :value="modelValue"
+      @change="onSelect"
+      :required="required"
+      class="select"
+    >
+      <option v-for="option in options" :key="option" :value="option">
+        {{ option }}
+      </option>
+    </select>
     <input
+      v-else
       :value="modelValue"
       @input="onInput"
       :placeholder="placeholder"
@@ -18,14 +30,24 @@ interface Props {
   placeholder?: string
   required?: boolean
   readonly?: boolean
+  options?: (string | number)[] // Array of string or number
 }
 
 defineProps<Props>()
-defineModel({ type: String, required: true })
+defineModel<number | string | null>({ required: true })
 const emit = defineEmits(['update:modelValue'])
+
+// Handles input for text
 const onInput = (event: Event) => {
   const input = event.target as HTMLInputElement
   emit('update:modelValue', input.value)
+}
+
+const onSelect = (event: Event) => {
+  const select = event.target as HTMLSelectElement
+  const value = select.value
+  const coercedValue = isNaN(Number(value)) ? value : Number(value)
+  emit('update:modelValue', coercedValue)
 }
 </script>
 
@@ -43,7 +65,8 @@ const onInput = (event: Event) => {
   font-style: italic;
 }
 
-.input {
+.input,
+.select {
   width: 100%;
   padding: 0.5rem 1rem;
   font-size: 1rem;

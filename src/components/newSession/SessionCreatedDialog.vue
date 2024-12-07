@@ -6,7 +6,7 @@
         <p>New session has been started</p>
       </div>
       <div class="session-created-dialog_controls">
-        <CopyLinkButton :session-id="sessionId" />
+        <CopyLinkButton :session-id="sessionId" title="Copy session link" />
         <RouterLink to="/">
           <button>Home</button>
         </RouterLink>

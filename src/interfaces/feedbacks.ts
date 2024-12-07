@@ -3,9 +3,24 @@ export interface Feedback {
 }
 
 export interface FeedbackForm {
-  fields: [{ [key: string]: string | null }]
+  fields: Input[]
   header: 'string'
 }
+
+type InputType = 'textarea' | 'select'
+export interface Input {
+  name: string
+  label: string
+  type: InputType
+  required: boolean
+  value: string | number | null
+  options?: Array<number | string>
+}
+
+export interface FeedbackSubmitPayload {
+  data: unknown
+}
+
 export interface FeedbackSession {
   id: string
   author_id: number

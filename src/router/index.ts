@@ -22,7 +22,7 @@ export const MAIN_ROUTES = [
   },
   {
     path: '/survey/:sessionId',
-    component: () => import('@/views/DashboardView.vue'),
+    component: () => import('@/views/SurveyView.vue'),
     meta: { requiresAuth: true },
     name: 'survey',
   },

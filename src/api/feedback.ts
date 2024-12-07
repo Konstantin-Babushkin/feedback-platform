@@ -1,6 +1,11 @@
 import { post, get, patch } from '@/api/api-methods.ts'
 import { USER_ID } from '@/config/local-storage-keys.ts'
-import type { FeedbackForm, FeedbackSession, TotalSummary } from '@/interfaces/feedbacks.ts'
+import type {
+  FeedbackForm,
+  FeedbackSession,
+  FeedbackSubmitPayload,
+  TotalSummary,
+} from '@/interfaces/feedbacks.ts'
 import type { APIResponse } from '@/interfaces/common.ts'
 
 async function getMySessions() {
@@ -22,7 +27,7 @@ async function endSession(sessionId: string) {
 }
 
 async function getFeedbackForm(sessionId: string) {
-  return (await get(`/feedback/${sessionId}`)) as APIResponse<FeedbackForm>
+  return (await get(`/feedback/${sessionId}`)) as FeedbackForm
 }
 
 async function getSessionFeedbacks(sessionId: string | null) {
@@ -30,7 +35,7 @@ async function getSessionFeedbacks(sessionId: string | null) {
   return (await get(`/feedback/${sessionId}/sent`)) as APIResponse<unknown>
 }
 
-async function submitFeedback(sessionId: string | null, data: never) {
+async function submitFeedback(sessionId: string | null, data: FeedbackSubmitPayload) {
   if (!sessionId) return
   return (await post(`/feedback/${sessionId}`, data)) as APIResponse<unknown>
 }

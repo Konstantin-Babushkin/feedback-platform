@@ -4,7 +4,7 @@
       <h2>Title: {{ data?.title }}</h2>
       <span>{{ sessionIsActive ? 'OPEN' : 'CLOSED' }}</span>
     </div>
-    <CopyLinkButton v-if="sessionIsActive" :session-id="sessionId" />
+    <CopyLinkButton v-if="sessionIsActive" :session-id="sessionId" title="Copy survey link" />
 
     <div v-if="loading">Loading...</div>
     <template v-if="sessionIsActive">

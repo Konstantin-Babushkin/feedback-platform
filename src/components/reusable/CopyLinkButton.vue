@@ -1,11 +1,11 @@
 <template>
-  <button @click="copyToClipboard">Copy survey link</button>
+  <button @click="copyToClipboard">{{ title }}</button>
 </template>
 
 <script setup lang="ts">
 import { toRefs } from 'vue'
 
-const props = defineProps<{ sessionId: string | undefined }>()
+const props = defineProps<{ title: string; sessionId: string | undefined }>()
 
 const { sessionId } = toRefs(props)
 
@@ -13,7 +13,7 @@ const copyToClipboard = () => {
   try {
     if (!sessionId.value) throw new Error('Missing session id')
 
-    const sessionLink = `http://localhost:5173/session/${sessionId.value}`
+    const sessionLink = `http://localhost:5173/survey/${sessionId.value}`
 
     const tempInput = document.createElement('input')
     tempInput.value = sessionLink
