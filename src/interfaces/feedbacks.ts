@@ -3,9 +3,20 @@ export interface Feedback {
   data: { [key: string]: unknown }
 }
 
+export interface AnalyticsEntry {
+  name: string
+  label: string
+  value: string | number | null
+}
+
+export interface PerformanceAnalytics {
+  fields: AnalyticsEntry[]
+  summarized: string
+}
+
 export interface FeedbackForm {
   fields: Input[]
-  header: 'string'
+  header: string
 }
 
 type InputType = 'textarea' | 'select'

@@ -4,6 +4,7 @@ import type {
   FeedbackForm,
   FeedbackSession,
   FeedbackSubmitPayload,
+  PerformanceAnalytics,
   TotalSummary,
 } from '@/interfaces/feedbacks.ts'
 import type { APIResponse } from '@/interfaces/common.ts'
@@ -26,6 +27,11 @@ async function endSession(sessionId: string) {
   return (await patch(`/feedback-sessions/${sessionId}`)) as FeedbackSession
 }
 
+async function getPerformanceAnalytics(sessionId: string) {
+  return (await get(`/feedback/${sessionId}/analytics`)) as PerformanceAnalytics
+}
+
+
 async function getFeedbackForm(sessionId: string) {
   return (await get(`/feedback/${sessionId}`)) as FeedbackForm
 }
@@ -45,6 +51,7 @@ export {
   getMyTotalSummary,
   startNewSession,
   endSession,
+  getPerformanceAnalytics,
   getFeedbackForm,
   getSessionFeedbacksAsAdmin,
   submitFeedback,

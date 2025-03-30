@@ -1,9 +1,8 @@
 import axiosInstance from '@/api/axios.ts'
-// import { BACKEND_URL } from '@/config/env-variables.ts'
+import { BACKEND_URL } from '@/config/env-variables.ts'
 
 async function baseRequest(method: string, path: string, payload: unknown = {}) {
-  // let fullPath = `${BACKEND_URL}${path}`
-  const fullPath = `/api${path}`
+  let fullPath = `${BACKEND_URL}${path}`
   const response = await axiosInstance(fullPath, {
     method,
     data: payload,
