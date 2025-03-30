@@ -44,7 +44,6 @@ const onInput = (event: Event) => {
   }
 
   &_input {
-    width: 100%;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-family: 'Arial', sans-serif;

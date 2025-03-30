@@ -1,18 +1,15 @@
 <template>
   <div class="sessions-list">
-    <template v-if="data">
-      <SessionsPreview
-        v-for="(session, index) in data"
-        :key="session.id"
-        :data="session"
-        :index="index + 1"
-      />
-      <div class="sessions-list_plus-button" @click="router.push('/create-session')">
-        <img src="https://www.svgrepo.com/show/532997/plus-large.svg" alt="plus sign" />
-        <span>New session</span>
-      </div>
-    </template>
-    <template v-else> No data </template>
+    <div class="sessions-list_title">
+      <h2>Sessions</h2>
+      <button class="sessions-list_title_button sessions-list_title_button--positive" @click="router.push('/create-session')">
+        <span>+ New session</span>
+      </button>
+    </div>
+    <div v-if="loading" class="loading">Loading...</div>
+    <div v-else class="sessions-list_content">
+      <SessionsPreview v-for="(session, index) in data" :key="session.id" :data="session" :index="index + 1" />
+    </div>
   </div>
 </template>
 
@@ -41,29 +38,59 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use '@/css/base.scss' as *;
+
 .sessions-list {
-  min-width: 600px;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: map.get($spacing, '6');
 
-  &_plus-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 32px;
+  &_title {
+    @include flex-between;
+    margin-bottom: map.get($spacing, '4');
 
-    img {
-      max-width: 24px;
-      padding: 10px;
-      border: 1px solid #9e9a9a;
-      border-radius: 10px;
+    h2 {
+      margin: 0;
+      font-size: map.get($font-sizes, 'xl');
+      font-weight: map.get($font-weights, 'semibold');
+      color: map.get(map.get($colors, 'neutral'), 'gray-800');
     }
 
-    img,
-    span {
-      cursor: pointer;
+    &_button {
+      @include primary-button;
+      display: flex;
+      align-items: center;
+      gap: map.get($spacing, '2');
+
+      img {
+        width: map.get($spacing, '4');
+        height: map.get($spacing, '4');
+      }
+    }
+  }
+
+  &_content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: map.get($spacing, '6');
+  }
+
+  .loading {
+    @include loading-text;
+  }
+}
+
+@include respond-to('md') {
+  .sessions-list {
+    gap: map.get($spacing, '4');
+
+    &_title {
+      margin-bottom: map.get($spacing, '3');
+    }
+
+    &_content {
+      gap: map.get($spacing, '4');
     }
   }
 }

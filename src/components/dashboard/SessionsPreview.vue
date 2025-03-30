@@ -5,15 +5,15 @@
     </div>
     <div class="sessions-preview_content">
       <div class="sessions-preview_content_required">
-        <span class="sessions-preview_content_required_title">{{ data.title }}</span>
-        <span
-          class="sessions-preview_content_required_status"
-          :class="{
-            'sessions-preview_content_required_status--open': data.is_active,
-            'sessions-preview_content_required_status--closed': !data.is_active,
-          }"
-          >{{ data.is_active ? 'OPEN' : 'CLOSED' }}</span
-        >
+        <div class="sessions-preview_content_required_title">
+          <h3>{{ data.title }}</h3>
+          <div class="sessions-preview_content_required_title_status" :class="{
+            'sessions-preview_content_required_title_status--open': data.is_active,
+            'sessions-preview_content_required_title_status--closed': !data.is_active
+          }">
+            {{ data.is_active ? 'Open' : 'Closed' }}
+          </div>
+        </div>
       </div>
       <div v-if="!data.is_active" class="sessions-preview_content_closed-info">
         <span class="sessions-preview_content_closed-info_responses-count"
@@ -43,46 +43,83 @@ const formattedDate = date
 </script>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use '@/css/base.scss' as *;
+
 .sessions-preview {
-  display: flex;
   width: 100%;
-  gap: 12px;
-  cursor: pointer;
+  padding: map.get($spacing, '4');
+  background-color: map.get(map.get($colors, 'neutral'), 'white');
+  border-radius: map.get($border-radius, 'lg');
+  border: 1px solid map.get(map.get($colors, 'neutral'), 'gray-200');
+  transition: $transition-base;
+
+  &:hover {
+    box-shadow: map.get($shadows, 'md');
+  }
 
   &_content {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacing, '4');
 
     &_required {
       display: flex;
-      width: 100%;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: map.get($spacing, '2');
 
       &_title {
-        font-weight: 600;
+        @include flex-between;
+        gap: map.get($spacing, '2');
+
+        h3 {
+          margin: 0;
+          font-size: map.get($font-sizes, 'lg');
+          font-weight: map.get($font-weights, 'semibold');
+          color: map.get(map.get($colors, 'neutral'), 'gray-800');
+        }
+
+        &_status {
+          @include status-badge;
+        }
       }
 
-      &_status {
-        &--open {
-          color: rgba(0, 128, 0, 0.6);
-        }
-        &--closed {
-          color: rgba(255, 0, 0, 0.6);
-        }
+      &_label {
+        @include label-text;
+      }
+
+      &_value {
+        @include value-text;
       }
     }
 
     &_closed-info {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
+      @include info-text;
+    }
+  }
 
-      &_responses-count {
-        color: rgba(0, 0, 0, 0.7);
-      }
+  &_footer {
+    @include flex-between;
+    margin-top: auto;
+    padding-top: map.get($spacing, '4');
+    border-top: 1px solid map.get(map.get($colors, 'neutral'), 'gray-200');
 
-      &_time {
-        color: rgba(0, 0, 0, 0.7);
-      }
+    &_date {
+      @include date-text;
+    }
+
+    &_responses {
+      @include responses-text;
+    }
+  }
+}
+
+@include respond-to('md') {
+  .sessions-preview {
+    padding: map.get($spacing, '3');
+
+    &_content {
+      gap: map.get($spacing, '3');
     }
   }
 }

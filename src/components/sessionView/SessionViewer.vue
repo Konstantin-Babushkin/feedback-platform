@@ -2,7 +2,12 @@
   <div class="session-view_content">
     <div class="session-view_content_title">
       <h2>Title: {{ data?.title }}</h2>
-      <span>{{ sessionIsActive ? 'OPEN' : 'CLOSED' }}</span>
+      <div class="session-viewer_header_status" :class="{
+        'session-viewer_header_status--open': sessionIsActive,
+        'session-viewer_header_status--closed': !sessionIsActive
+      }">
+        <span>{{ sessionIsActive ? 'OPEN' : 'CLOSED' }}</span>
+      </div>
     </div>
     <CopyLinkButton v-if="sessionIsActive" :session-id="sessionId" title="Copy survey link" />
 
@@ -96,44 +101,103 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use '@/css/base.scss' as *;
+
 .session-view_content {
   max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
+  padding: map.get($spacing, '8');
+  background: map.get(map.get($colors, 'neutral'), 'white');
+  border-radius: map.get($border-radius, 'xl');
+  box-shadow: map.get($shadows, 'base');
+
+  button {
+    @include primary-button;
+  }
 
   &_title {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    margin-block: 16px;
+    @include flex-center;
+    gap: map.get($spacing, '6');
+    margin-bottom: map.get($spacing, '8');
+    padding-bottom: map.get($spacing, '4');
+    border-bottom: 2px solid map.get(map.get($colors, 'neutral'), 'gray-200');
 
     h2 {
       margin: 0;
+      font-size: map.get($font-sizes, '2xl');
+      font-weight: map.get($font-weights, 'semibold');
+      color: map.get(map.get($colors, 'neutral'), 'gray-800');
+    }
+
+    .session-viewer_header_status {
+      @include status-badge;
     }
   }
 
   &_open {
-    display: flex;
+    @include flex-center;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+    gap: map.get($spacing, '6');
+    padding: map.get($spacing, '8');
+    text-align: center;
+    color: map.get(map.get($colors, 'neutral'), 'gray-600');
+    font-size: map.get($font-sizes, 'lg');
+
+    button {
+      @include error-button;
+    }
   }
 
   &_closed {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: map.get($spacing, '6');
+
+    span {
+      @include value-text;
+    }
 
     &_summary {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      @include summary-box;
     }
 
     &_feedbacks {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: map.get($spacing, '6');
+    }
+  }
+
+  .loading {
+    @include loading-text;
+  }
+}
+
+@include respond-to('md') {
+  .session-view_content {
+    padding: map.get($spacing, '4');
+    margin: map.get($spacing, '4');
+
+    &_title h2 {
+      font-size: map.get($font-sizes, 'xl');
+    }
+
+    &_open {
+      padding: map.get($spacing, '4');
+    }
+
+    &_closed {
+      gap: map.get($spacing, '4');
+
+      &_summary {
+        padding: map.get($spacing, '3');
+      }
+
+      &_feedbacks {
+        gap: map.get($spacing, '4');
+      }
     }
   }
 }

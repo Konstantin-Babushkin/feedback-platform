@@ -78,6 +78,7 @@ async function handleSubmit() {
   await submitFeedback(sessionId.value, {
     data: formData,
   })
+  // TODO success screen
 }
 
 watch(
@@ -90,83 +91,164 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use '@/css/base.scss' as *;
+
 .survey-view_content {
-  max-width: 1200px;
+  max-width: 800px;
   width: 100%;
+  margin: 0 auto;
+  padding: map.get($spacing, '8');
+  background: map.get(map.get($colors, 'neutral'), 'white');
+  border-radius: map.get($border-radius, 'xl');
+  box-shadow: map.get($shadows, 'base');
 
   &_title {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    margin-block: 16px;
+    @include flex-center;
+    gap: map.get($spacing, '6');
+    margin-bottom: map.get($spacing, '8');
+    padding-bottom: map.get($spacing, '4');
+    border-bottom: 2px solid map.get(map.get($colors, 'neutral'), 'gray-200');
 
     h2 {
       margin: 0;
+      font-size: map.get($font-sizes, '2xl');
+      font-weight: map.get($font-weights, 'semibold');
+      color: map.get(map.get($colors, 'neutral'), 'gray-800');
     }
   }
 
   &_analytics {
-    margin: 24px 0;
-    padding: 16px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
+    margin: map.get($spacing, '8') 0;
+    padding: map.get($spacing, '6');
+    background-color: map.get(map.get($colors, 'neutral'), 'gray-50');
+    border-radius: map.get($border-radius, 'xl');
+    border: 1px solid map.get(map.get($colors, 'neutral'), 'gray-200');
+    transition: $transition-smooth;
+
+    &:hover {
+      box-shadow: map.get($shadows, 'lg');
+    }
 
     h3 {
-      margin: 0 0 16px 0;
-      font-size: 1.2rem;
-      color: #333;
+      margin: 0 0 map.get($spacing, '6') 0;
+      font-size: map.get($font-sizes, 'xl');
+      font-weight: map.get($font-weights, 'semibold');
+      color: map.get(map.get($colors, 'neutral'), 'gray-800');
     }
 
     h4 {
-      margin: 0 0 12px 0;
-      font-size: 1rem;
-      color: #444;
+      margin: 0 0 map.get($spacing, '4') 0;
+      font-size: map.get($font-sizes, 'lg');
+      font-weight: map.get($font-weights, 'medium');
+      color: map.get(map.get($colors, 'neutral'), 'gray-700');
     }
 
     .analytics-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: map.get($spacing, '6');
     }
 
     .analytics-summary {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: map.get($spacing, '2');
       width: 100%;
       grid-column: 1 / -1;
+      padding: map.get($spacing, '4');
+      background: map.get(map.get($colors, 'neutral'), 'white');
+      border-radius: map.get($border-radius, 'lg');
+      border: 1px solid map.get(map.get($colors, 'neutral'), 'gray-200');
 
       .value {
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #333;
-        width: 100%;
+        font-size: map.get($font-sizes, 'lg');
+        font-weight: map.get($font-weights, 'medium');
+        color: map.get(map.get($colors, 'neutral'), 'gray-800');
+        line-height: 1.5;
       }
     }
 
     .analytics-fields {
       grid-column: 1 / -1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: map.get($spacing, '4');
 
       .analytics-field-item {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        padding: 8px;
-        background-color: white;
-        border-radius: 4px;
+        gap: map.get($spacing, '2');
+        padding: map.get($spacing, '4');
+        background-color: map.get(map.get($colors, 'neutral'), 'white');
+        border-radius: map.get($border-radius, 'lg');
+        border: 1px solid map.get(map.get($colors, 'neutral'), 'gray-200');
+        transition: $transition-base;
+
+        &:hover {
+          box-shadow: map.get($shadows, 'md');
+        }
 
         .label {
-          font-size: 0.9rem;
-          color: #666;
+          font-size: map.get($font-sizes, 'sm');
+          color: map.get(map.get($colors, 'neutral'), 'gray-500');
+          font-weight: map.get($font-weights, 'medium');
         }
 
         .value {
-          font-size: 1rem;
-          color: #333;
+          font-size: map.get($font-sizes, 'base');
+          color: map.get(map.get($colors, 'neutral'), 'gray-800');
+          font-weight: map.get($font-weights, 'semibold');
         }
+      }
+    }
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: map.get($spacing, '8') auto;
+    padding: map.get($spacing, '3') map.get($spacing, '6');
+    background-color: map.get(map.get($colors, 'primary'), 'base');
+    color: map.get(map.get($colors, 'neutral'), 'white');
+    border: none;
+    border-radius: map.get($border-radius, 'lg');
+    font-size: map.get($font-sizes, 'base');
+    font-weight: map.get($font-weights, 'medium');
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover {
+      background-color: map.get(map.get($colors, 'primary'), 'hover');
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: map.get($spacing, '8');
+    color: map.get(map.get($colors, 'neutral'), 'gray-500');
+    font-size: map.get($font-sizes, 'lg');
+  }
+}
+
+@include respond-to('md') {
+  .survey-view_content {
+    padding: map.get($spacing, '4');
+    margin: map.get($spacing, '4');
+
+    &_title {
+      h2 {
+        font-size: map.get($font-sizes, 'xl');
+      }
+    }
+
+    &_analytics {
+      padding: map.get($spacing, '4');
+      margin: map.get($spacing, '6') 0;
+
+      .analytics-fields {
+        grid-template-columns: 1fr;
       }
     }
   }
